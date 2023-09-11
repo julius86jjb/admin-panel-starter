@@ -5,8 +5,12 @@ import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-l
 const routes: Routes = [
   {
     path: '',
-    component: DashboardLayoutComponent
-  }
+    component: DashboardLayoutComponent,
+    children: [
+      { path: 'usuarios', loadChildren: () => import('./modules/usuarios/usuarios.module').then(m => m.UsuariosModule) }
+    ]
+  },
+
 ];
 
 @NgModule({

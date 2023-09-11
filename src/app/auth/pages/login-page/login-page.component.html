@@ -4,24 +4,32 @@
     Login
   </span>
 
-  <div class="wrap-input100 m-b-23">
-    <span class="label-input100">Correo</span>
-    <input formControlName="email" class="input100" type="email" placeholder="Correo electrónico">
+  <div [ngClass]="{'m-b-23': !isValidField('email') }" class="wrap-input100">
+    <span class="label-input100">Email</span>
+    <input formControlName="email" class="input100" type="email" placeholder="Ingresa tu correo electrónico">
     <span class="focus-input100"></span>
   </div>
 
-  <div class="wrap-input100">
+  <div *ngIf="isValidField('email')" class="text-right p-t-8 txt1">
+    {{ getFieldError('email') }}
+  </div>
+
+  <div [ngClass]="{'m-b-23': !isValidField('password') }" class="wrap-input100">
     <span class="label-input100">Contraseña</span>
-    <input formControlName="password" class="input100" type="password" placeholder="Ingrese su contraseña">
+    <input formControlName="password" class="input100" type="password" placeholder="Ingresa tu contraseña">
     <span class="focus-input100"></span>
   </div>
 
-  <div class="text-right p-t-8 p-b-31"></div>
+  <div *ngIf="isValidField('password')" class="text-right p-t-8 p-b-31 txt1">
+    {{ getFieldError('password') }}
+  </div>
+
+
 
   <div class="container-login100-form-btn">
     <div class="wrap-login100-form-btn">
       <div class="login100-form-bgbtn"></div>
-      <button class="login100-form-btn" type="submit" [disabled]="myForm.invalid">
+      <button class="login100-form-btn" type="submit" >
         Login
       </button>
     </div>
