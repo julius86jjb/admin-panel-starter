@@ -17,8 +17,8 @@ export class LoginPageComponent {
 
   public myForm: FormGroup = this.fb.group({
 
-    email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    email: ['admin_role@email.com', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)]],
+    password: ['123456', [Validators.required, Validators.minLength(6)]],
 
   })
 
@@ -48,7 +48,7 @@ export class LoginPageComponent {
     const {email, password} = this.myForm.value;
     this.authService.login(email, password)
       .subscribe({
-        next: () => this.router.navigateByUrl('/dashboard'),
+        next: () => this.router.navigateByUrl('/admin'),
         error: (message) => {
           Swal.fire('Error', message, 'error')
         }

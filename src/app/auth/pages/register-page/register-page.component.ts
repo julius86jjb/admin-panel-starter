@@ -8,7 +8,7 @@ import { EmailValidator } from 'src/app/shared/validators/email-validator.servic
 
 @Component({
   templateUrl: './register-page.component.html',
-  styleUrls: ['./register-page.component.css']
+  styleUrls: ['../login-page/login-page.component.css']
 })
 export class RegisterPageComponent{
 

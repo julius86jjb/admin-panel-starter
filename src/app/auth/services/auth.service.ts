@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
+import { Injectable, computed, inject, signal, OnInit } from '@angular/core';
+import { Observable, catchError, delay, map, of, tap, throwError } from 'rxjs';
 import { environments } from 'src/environments/environments';
 import { AuthStatus, CheckTokenResponse, LoginResponse, User } from '../interfaces';
 import { RegisterResponse } from '../interfaces/register-response.interface';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService{
 
 
   private readonly baseUrl: string = environments.baseUrl;
@@ -20,9 +21,11 @@ export class AuthService {
   public currentUser = computed ( () => this._currentUser());
   public authStatus = computed ( () => this._authStatus());
 
-  constructor() {
-    this.checkAuthStatus().subscribe();
+  constructor(public route: ActivatedRoute) {
+    this.checkAuthStatus().subscribe()
   }
+
+
 
   private setAuthentication(user: User, token: string): boolean {
     this._currentUser.set(user);
@@ -62,7 +65,7 @@ export class AuthService {
   }
 
   checkAuthStatus(): Observable<boolean> {
-    const url = `${this.baseUrl}/auth/check-token`;
+    const url = `${this.baseUrl}/check-token`;
     const token = localStorage.getItem('token');
 
     if(!token) {
@@ -75,6 +78,7 @@ export class AuthService {
 
     return this.http.get<CheckTokenResponse>(url, {headers: headers})
       .pipe(
+
         map(({token, user}) => this.setAuthentication(user, token)),
         catchError(() => {
           this._authStatus.set(AuthStatus.notAuthenticated);
